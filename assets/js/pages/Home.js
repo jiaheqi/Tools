@@ -29,7 +29,7 @@ const Home = {
           id: '3',
           name: 'diff 工具',
           description: '在线diff工具，支持文本对比、代码对比等功能',
-          icon: 'fas fa-diff',
+          icon: 'fa-solid fa-magnifying-glass',
           category: 'development',
           url: 'https://tool.chinaz.com/tools/diff'
         },
