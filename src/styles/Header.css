@@ -1,0 +1,75 @@
+.header {
+  position: relative;
+  padding: 0;
+  height: auto;
+  background: transparent;
+}
+
+.header-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/assets/images/header-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  z-index: -1;
+  opacity: 0.8;
+}
+
+.header-content {
+  padding: 20px 50px;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.logo {
+  color: white !important;
+  margin: 0;
+}
+
+.subtitle {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+}
+
+.search-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-input {
+  width: 100%;
+  max-width: 500px;
+}
+
+.nav-menu {
+  display: flex;
+  justify-content: flex-end;
+  background: transparent;
+  border-bottom: none;
+}
+
+.nav-menu .ant-menu-item {
+  color: white;
+}
+
+.nav-menu .ant-menu-item:hover {
+  color: #1890ff;
+}
+
+.nav-menu .ant-menu-item-selected {
+  color: #1890ff;
+}
+
+@media (max-width: 768px) {
+  .header-content {
+    padding: 20px;
+    flex-direction: column;
+  }
+  
+  .logo-container, .search-container {
+    margin-bottom: 15px;
+  }
+} 

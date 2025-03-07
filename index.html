@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>77's Tools - 77的工具集合</title>
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <link rel="stylesheet" href="assets/css/reset.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="https://at.alicdn.com/t/c/font_4520887_73reuey7v9r.css">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+  <script src="https://unpkg.com/vue-router@3.5.3/dist/vue-router.js"></script>
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/js/all.min.js"></script>
+  <<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+  >
+</head>
+<body>
+  <div id="app">
+    <router-view></router-view>
+  </div>
+
+  <!-- 组件模板 -->
+  <script type="text/x-template" id="header-template">
+    <header class="site-header">
+      <div class="header-background"></div>
+      <div class="header-content">
+        <div class="container">
+          <div class="row">
+            <div class="logo-container">
+              <router-link to="/">
+                <h1 class="logo">77's Tools</h1>
+                <div class="subtitle">77的工具集合</div>
+              </router-link>
+            </div>
+            
+            <div class="search-container">
+              <el-input
+                placeholder="搜索工具..."
+                v-model="searchValue"
+                @keyup.enter.native="handleSearch"
+                prefix-icon="el-icon-search"
+                class="search-input">
+              </el-input>
+            </div>
+            
+            <div class="nav-menu">
+              <el-menu mode="horizontal" :router="true" background-color="transparent" text-color="#fff" active-text-color="#409EFF">
+                <el-menu-item index="/">
+                  <i class="fas fa-home"></i> 首页
+                </el-menu-item>
+                <el-menu-item index="/about">
+                  <i class="fas fa-info-circle"></i> 关于
+                </el-menu-item>
+                <el-menu-item index="https://www.jiaheqi.cloud/">
+                  <a href="https://www.jiaheqi.cloud/" target="_blank">
+                    <i class="fas fa-blog"></i> 博客
+                  </a>
+                </el-menu-item>
+              </el-menu>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+  </script>
+
+  <script type="text/x-template" id="footer-template">
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="row">
+            <div class="col-md-4">
+              <h3>关于我们</h3>
+              <p>77's Tools 是一个提供各种实用工具的在线平台，旨在提高工作效率和便利性。</p>
+            </div>
+            
+            <div class="col-md-4">
+              <h3>联系方式</h3>
+              <p><i class="fas fa-envelope"></i> 邮箱: example@77tools.com</p>
+              <p><i class="fab fa-github"></i> GitHub: <a href="https://github.com/username" target="_blank">github.com/username</a></p>
+            </div>
+            
+            <div class="col-md-4">
+              <h3>友情链接</h3>
+              <ul class="friend-links">
+                <li><a href="https://www.jiaheqi.cloud/" target="_blank">个人博客</a></li>
+                <li><a href="https://www.ossnav.com/" target="_blank">OSS Nav</a></li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="divider"></div>
+          
+          <div class="copyright">
+            <p>© {{ new Date().getFullYear() }} 77's Tools. 保留所有权利。</p>
+            <p>ICP备案号: 京ICP备XXXXXXXX号</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </script>
+
+  <script type="text/x-template" id="sidebar-template">
+    <div class="sidebar">
+      <h3 class="sidebar-title">工具分类</h3>
+      <el-menu
+        :default-active="activeCategory"
+        class="category-menu"
+        @select="handleSelect">
+        <el-menu-item v-for="category in categories" :key="category.key" :index="category.key">
+          <i :class="category.icon"></i>
+          <span>{{ category.name }}</span>
+        </el-menu-item>
+      </el-menu>
+    </div>
+  </script>
+
+  <script type="text/x-template" id="tool-card-template">
+    <div class="tool-card" @click="handleClick">
+      <div class="tool-icon" v-html="iconHtml"></div>
+      <div class="tool-info">
+        <h3 class="tool-name">{{ tool.name }}</h3>
+        <p class="tool-description">{{ tool.description }}</p>
+      </div>
+    </div>
+  </script>
+
+  <script type="text/x-template" id="home-template">
+    <div class="layout">
+      <site-header></site-header>
+      
+      <div class="main-content container">
+        <div class="row">
+          <div class="col-md-3">
+            <sidebar :active-category="category" @category-change="setCategory"></sidebar>
+          </div>
+          <div class="col-md-9">
+            <div class="tool-grid">
+              <div class="tool-grid-header">
+                <h2>热门工具</h2>
+                <router-link to="/tools" class="more-tools-btn">
+                  更多工具 <i class="fas fa-chevron-right"></i>
+                </router-link>
+              </div>
+              
+              <div class="tools-container">
+                <tool-card 
+                  v-for="tool in displayTools" 
+                  :key="tool.id" 
+                  :tool="tool">
+                </tool-card>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <site-footer></site-footer>
+    </div>
+  </script>
+
+  <script type="text/x-template" id="about-template">
+    <div class="layout">
+      <site-header></site-header>
+      
+      <div class="about-container container">
+        <div class="about-card">
+          <h2>关于 77's Tools</h2>
+          <div class="divider"></div>
+          
+          <p>
+            77's Tools 是一个集合了各种实用工具的在线平台，旨在为用户提供便捷、高效的工具服务。
+            我们的目标是通过简洁的界面和强大的功能，帮助用户解决日常工作和生活中的各种问题。
+          </p>
+          
+          <h3>我们的特点</h3>
+          <div class="features-container">
+            <div class="feature-card">
+              <h4>简洁易用</h4>
+              <p>所有工具都设计得简单直观，无需复杂操作，即可快速完成任务。</p>
+            </div>
+            <div class="feature-card">
+              <h4>功能强大</h4>
+              <p>每个工具都经过精心开发，提供专业级的功能和性能。</p>
+            </div>
+            <div class="feature-card">
+              <h4>持续更新</h4>
+              <p>我们会不断添加新工具，并优化现有工具，以满足用户不断变化的需求。</p>
+            </div>
+          </div>
+          
+          <div class="divider"></div>
+          
+          <h3>联系我们</h3>
+          <p>
+            如果您有任何问题、建议或合作意向，欢迎通过以下方式联系我们：
+          </p>
+          <p>
+            邮箱：example@77tools.com<br>
+            博客：<a href="https://www.jiaheqi.cloud/" target="_blank">https://www.jiaheqi.cloud/</a>
+          </p>
+        </div>
+      </div>
+      
+      <site-footer></site-footer>
+    </div>
+  </script>
+
+  <script type="text/x-template" id="tool-list-template">
+    <div class="layout">
+      <site-header></site-header>
+      
+      <div class="main-content container">
+        <div class="row">
+          <div class="col-md-3">
+            <sidebar :active-category="category" @category-change="setCategory"></sidebar>
+          </div>
+          <div class="col-md-9">
+            <div class="tool-list">
+              <h1 class="page-title">所有工具</h1>
+              
+              <div class="tools-container">
+                <tool-card 
+                  v-for="tool in displayTools" 
+                  :key="tool.id" 
+                  :tool="tool">
+                </tool-card>
+              </div>
+              
+              <div class="pagination-container">
+                <el-pagination
+                  @current-change="handlePageChange"
+                  :current-page.sync="currentPage"
+                  :page-size="pageSize"
+                  layout="prev, pager, next"
+                  :total="filteredTools.length">
+                </el-pagination>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <site-footer></site-footer>
+    </div>
+  </script>
+
+  <!-- 组件和路由定义 -->
+  <script src="assets/js/components/Header.js"></script>
+  <script src="assets/js/components/Footer.js"></script>
+  <script src="assets/js/components/Sidebar.js"></script>
+  <script src="assets/js/components/ToolCard.js"></script>
+  <script src="assets/js/pages/Home.js"></script>
+  <script src="assets/js/pages/About.js"></script>
+  <script src="assets/js/pages/ToolList.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html> 
