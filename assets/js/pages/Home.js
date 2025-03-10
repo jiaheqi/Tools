@@ -153,14 +153,24 @@ const Home = {
   data() {
     return {
       category: 'all',
-      tools: toolsData
+      tools: toolsData,
+      searchValue: ''
     };
   },
   computed: {
     displayTools() {
-      return this.category === 'all'
+      let filteredTools = this.category === 'all'
         ? this.tools
         : this.tools.filter(tool => tool.category === this.category);
+        
+      if (this.searchValue) {
+        filteredTools = filteredTools.filter(tool => 
+          tool.name.toLowerCase().includes(this.searchValue.toLowerCase()) || 
+          tool.description.toLowerCase().includes(this.searchValue.toLowerCase())
+        );
+      }
+      
+      return filteredTools;
     },
     toolUrls() {
       return toolUrls; // 返回工具 URL 配置
@@ -169,6 +179,16 @@ const Home = {
   methods: {
     setCategory(category) {
       this.category = category;
+    },
+    handleSearch(searchValue) {
+      console.log('Home 接收到搜索:', searchValue);
+      this.searchValue = searchValue;
     }
+  },
+  created() {
+    this.$root.$on('global-search', this.handleSearch);
+  },
+  beforeDestroy() {
+    this.$root.$off('global-search', this.handleSearch);
   }
 };

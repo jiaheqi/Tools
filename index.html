@@ -36,6 +36,7 @@
             
             <div class="search-container">
               <el-input
+                id="search-input"
                 placeholder="搜索工具..."
                 v-model="searchValue"
                 @keyup.enter.native="handleSearch"
@@ -82,7 +83,7 @@
               <p><i class="fab fa-github"></i> GitHub: <a href="https://github.com/jiaheqi" target="_blank">github.com/jiaheqi</a></p>
             </div>
             
-            <div class="col-md-4"
+            <div class="col-md-4">
               <h3>友情链接</h3>
               <ul class="friend-links">
                 <li><a href="https://www.jiaheqi.cloud/" target="_blank">个人博客</a></li>
@@ -94,7 +95,7 @@
           <div class="divider"></div>
           
           <div class="copyright">
-            <p>© {{ new Date().getFullYear() }} 77's Tools. 保留所有权利。</p>
+            <p>© {{ currentYear }} 77's Tools. 保留所有权利。</p>
             <p>ICP备案号: 京ICP备XXXXXXXX号</p>
           </div>
         </div>

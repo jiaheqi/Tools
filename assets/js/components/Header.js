@@ -8,7 +8,7 @@ Vue.component('site-header', {
   methods: {
     handleSearch() {
       console.log('搜索:', this.searchValue);
-      this.$emit('search', this.searchValue);
+      this.$root.$emit('global-search', this.searchValue);
     }
   }
 }); 
