@@ -54,7 +54,7 @@
                 <el-menu-item index="/about">
                   <i class="fas fa-info-circle"></i> 关于
                 </el-menu-item>
-                <el-menu-item index="https://www.jiaheqi.cloud/">
+                <el-menu-item index="">
                   <a href="https://www.jiaheqi.cloud/" target="_blank">
                     <i class="fas fa-blog"></i> 博客
                   </a>
@@ -152,6 +152,16 @@
                   :key="tool.id" 
                   :tool="tool">
                 </tool-card>
+              </div>
+              
+              <div class="pagination-container">
+                <el-pagination
+                  @current-change="handlePageChange"
+                  :current-page.sync="currentPage"
+                  :page-size="pageSize"
+                  layout="prev, pager, next"
+                  :total="filteredTools.length">
+                </el-pagination>
               </div>
             </div>
           </div>

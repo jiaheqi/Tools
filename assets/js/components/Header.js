@@ -9,6 +9,10 @@ Vue.component('site-header', {
     handleSearch() {
       console.log('搜索:', this.searchValue);
       this.$root.$emit('global-search', this.searchValue);
+    },
+    clearSearch() {
+      this.searchValue = '';
+      this.$root.$emit('global-search', '');
     }
   }
 }); 
