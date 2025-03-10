@@ -5,13 +5,7 @@ const ToolList = {
       category: 'all',
       currentPage: 1,
       pageSize: 12,
-      allTools: Array(30).fill(null).map((_, index) => ({
-        id: `${index + 1}`,
-        name: `工具 ${index + 1}`,
-        description: `这是工具 ${index + 1} 的描述，简单介绍工具的功能和用途。`,
-        icon: `assets/images/tool-icons/tool-${index % 8 + 1}.png`,
-        category: index < 8 ? ['development', 'utility', 'calculation'][index % 3] : 'new-tools'
-      }))
+      allTools: toolsData // 使用从 Home.js 导入的工具数据
     };
   },
   computed: {
